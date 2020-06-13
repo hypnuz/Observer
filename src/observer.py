@@ -95,6 +95,7 @@ def update_article_status(article_id, valid, backup_path=None, optionals={}):
                 if new_path is None:
                     return False
                 article_info = (article_id, new_path, STATUS_NORMAL_OB, title) # 制作备份完成，状态更新
+                print("start update_article")
                 return db.update_article(article_info)
         else:
             print("unknown status!")

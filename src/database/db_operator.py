@@ -12,7 +12,7 @@ errorcode = mysql.connector.errorcode
 # !!! 已知问题：当数据库内没有目标项目时，对其做 update/delete 都不会报错
 #先声明一个 Logger 对象
 logger = logging.getLogger("mysql")
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 #然后指定其对应的 Handler 为 FileHandler 对象
 handler = logging.FileHandler('mysql.log')
 #然后 Handler 对象单独指定了 Formatter 对象单独配置输出格式
@@ -97,6 +97,7 @@ class DbOperator:
             # Commit the changes
             self.db.commit()
         except mysql.connector.Error:
+            print("rolling back")
             self.db.rollback()
             success = False
             # log it
@@ -319,7 +320,7 @@ class DbOperator:
         article_id, backup_addr, status, title = article
         update = (
             "UPDATE articles SET backup_addr=%s, status=%s, title=%s WHERE article_id=%s;")
-        parameters = (backup_addr, status, article_id, title)
+        parameters = (backup_addr, status, title, article_id)
         return self._commit_cmd(update, parameters)
 
     def remove_article(self, article_id):
