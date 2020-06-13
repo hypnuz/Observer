@@ -186,10 +186,12 @@ class MainLogic(object):
         db = DbOperator()
         success, result = db.fetch_all_article()
         if not success:
+            print("yo")
             logger.info("_admin_list fetch 0")
             return "admin-list 查询失败，结果为空"
 
         output = []
+        print("seems ok ?")
         for item in result:
             output.append(item['article_id'])
             output.append(item['URL'])
